@@ -1,7 +1,7 @@
 <template>
-  <!-- 轮播图 -->
   <div class="home">
     <el-container>
+      <!-- 侧边栏 -->
       <el-aside width="200px">
         <el-radio-group v-model="isCollapse" style="margin-bottom: 20px;">
           <el-radio-button :label="false">展开</el-radio-button>
@@ -46,41 +46,93 @@
           </el-menu-item>
         </el-menu>
       </el-aside>
+      <!-- 顶部栏 -->
       <el-container>
-        <el-header>Header</el-header>
-        <el-main>Main</el-main>
+        <el-header>
+          <el-row type="flex" class="row-bg" justify="space-between">
+            <el-col :span="6"
+              ><div class="grid-content bg-purple">
+                 图标</div
+            ></el-col>
+            <el-col :span="6"
+              ><div class="grid-content bg-purple-light">
+                 后台管理系统</div
+            ></el-col>
+            <el-col :span="6">
+              <div class="grid-content bg-purple">
+                <div class="demo-basic--circle">
+                  <span class="img">
+                    <el-avatar :size="40"
+                           fit="fit"
+                           src="http://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTIzXDib7zrmdYxdEQpYk85B26DZAJS6PUJC7ic4Fydibdz9L2gU3hloPcibuyo0xAFztxqPbgdVWp1zpQ/132"></el-avatar>
+                  </span>
+                  
+                  <span>欢迎您:</span>
+                  <b class="nickname">{{userInfo.nickname}}</b>
+                  <span class="quit"
+                      @click="quit">退出</span>
+                </div>
+                </div>
+              </el-col>
+          </el-row>
+        </el-header>
+        <!-- 主题 -->
+        <el-main> </el-main>
       </el-container>
     </el-container>
   </div>
 </template>
 <script>
-import { getLoginLog} from "@/api"
-  export default {
-    data() {
-      return {
-        isCollapse: true
-      };
+import { getLoginLog } from "@/api";
+import {mapState} from "vuex"
+export default {
+  computed: {
+    ...mapState(["userInfo"])
+  },
+  data() {
+    return {
+      isCollapse: true,
+    };
+  },
+  methods: {
+    handleOpen(key, keyPath) {
+      console.log(key, keyPath);
     },
-    methods: {
-      handleOpen(key, keyPath) {
-        console.log(key, keyPath);
-      },
-      handleClose(key, keyPath) {
-        console.log(key, keyPath);
+    handleClose(key, keyPath) {
+      console.log(key, keyPath);
+    },
+      quit() {
+        //退出登入
+        //1.清除token和userInfo
+        //2.跳转到登入页
+
+        localStorage.removeItem("2005-token")
+        localStorage.removeItem("wf-userInfo")
+
+        this.$router.push("/")
       }
-    },
-    mounted() {
-      getLoginLog()
-        .then(res => {
-          console.log(res);
-        })
-    }
+  },
+  mounted() {
+    getLoginLog().then(res => {
+      console.log(res);
+    });
   }
+};
 </script>
 <style scoped>
-.el-header,
-.el-footer {
-  background-color: #b3c0d1;
+.quit {
+    cursor: pointer;
+    color: hotpink;
+  }
+.img{
+  vertical-align:-webkit-baseline-middle;
+}
+.el-menu-vertical-demo:not(.el-menu--collapse) {
+  width: 200px;
+  min-height: 400px;
+}
+.el-header {
+  background: blue;
   color: #333;
   text-align: center;
   line-height: 60px;
@@ -112,9 +164,19 @@ body > .el-container {
 .el-container:nth-child(7) .el-aside {
   line-height: 320px;
 }
-.el-menu-vertical-demo:not(.el-menu--collapse) {
-    width: 200px;
-    min-height: 400px;
-  }
+
+.el-row {
+  margin-bottom: 20px;
+}
+.el-col {
+  border-radius: 4px;
+}
+.grid-content {
+  border-radius: 4px;
+}
+.row-bg {
+  padding: 10px 0;
+}
 </style>
+
 

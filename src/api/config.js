@@ -1,4 +1,7 @@
 import axios from "axios";
+import router from "../router"
+
+import ElementUI from "element-ui"
 axios.defaults.baseURL = process.env.NODE_ENV === 'development' ? "/api" : "http://www.chst.vip"
 
 
@@ -16,12 +19,21 @@ axios.interceptors.request.use(config => {
         //放行
         return config
     }
-   
-
+})
+//响应拦截
+axios.interceptors.response.use(config =>{
+    console.log(config);
+    let {data} = config
+    if(data.code == "1004" || data.code == "10022"){
+        //1004的code 这个code是后端定义的状态码
+        //在当前的后台api中 1004代表token校验失败，表示错误，并且让页面跳转到登录页
+        ElementUI.Message.error("重新登入")
+        router.push("/")
+    }
+    return config
 })
 
 axios.create({
     timeout: 3000
-
 })
 export default axios

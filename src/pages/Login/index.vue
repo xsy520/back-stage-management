@@ -57,6 +57,7 @@
   5、校验不通过，跳转至登入页
  */
 import { login } from "@/api";
+import {mapMutations} from "vuex"
 export default {
   data() {
     //jsDoc的注释
@@ -96,6 +97,7 @@ export default {
     };
   },
   methods: {
+    ...mapMutations(["SET_USERINFO"]),
     //先本地校验通过之后再去服务器校验
     submitForm(formName) {
       // console.log(this.$refs[formName]);
@@ -120,8 +122,11 @@ export default {
                 this.$message.success("登录成功");
                 //用户密码正确
                 localStorage.setItem("2005-token", res.data.token);
+                localStorage.setItem("wf-userInfo", JSON.stringify(res.data.userInfo));
+                //更改vuex中的state[“userInfo]的值
+                this.SET_USERINFO(res.data.userInfo)
                 //跳转到主页
-                this.$router.push("/");
+                this.$router.push("/home");
               } else {
                 //用户或者密码错误
                 this.$message.error("用户名或者密码错误");
