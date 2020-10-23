@@ -23,12 +23,13 @@
           <el-form-item label="密码" prop="password">
             <el-input
               type="password"
+              @keydown.native.enter="submitForm('loginFrom')"
               v-model="loginFrom.password"
               autocomplete="off"
             ></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="submitForm('loginFrom')"
+            <el-button type="primary" @click="submitForm('loginFrom')" 
               >提交</el-button
             >
             <!-- <el-button @click="resetForm('loginFrom')">重置</el-button> -->
@@ -57,8 +58,12 @@
   5、校验不通过，跳转至登入页
  */
 import { login } from "@/api";
-import {mapMutations} from "vuex"
+import { mapMutations } from "vuex";
+import { mapState } from "vuex";
 export default {
+  computed: {
+    ...mapState(["userInfo"])
+  },
   data() {
     //jsDoc的注释
     /**
@@ -67,8 +72,8 @@ export default {
      * @param {Function} callback 校验通过不传参数，校验通过传参数
      */
     var validateUsername = (rule, value, callback) => {
-      console.log(rule);
-      console.log(value); //输入的值
+      // console.log(rule);
+      // console.log(value); //输入的值
       //正则
       //  var user = /^[a-zA-Z]\w{3,15}$/;
       if (!value) {
@@ -99,6 +104,7 @@ export default {
   methods: {
     ...mapMutations(["SET_USERINFO"]),
     //先本地校验通过之后再去服务器校验
+    
     submitForm(formName) {
       // console.log(this.$refs[formName]);
       this.$refs[formName].validate(valid => {
@@ -111,8 +117,11 @@ export default {
             spinner: "el-icon-loading",
             background: "rgba(0, 0, 0, 0.7)"
           });
+          //发送登入请求
           let { username, password } = this.loginFrom; //解构
           // console.log(username,password);
+          console.log(username);
+          console.log(password);
           login(username, password)
             .then(res => {
               // console.log(res);
@@ -122,11 +131,14 @@ export default {
                 this.$message.success("登录成功");
                 //用户密码正确
                 localStorage.setItem("2005-token", res.data.token);
-                localStorage.setItem("wf-userInfo", JSON.stringify(res.data.userInfo));
+                localStorage.setItem(
+                  "wf-userInfo",
+                  JSON.stringify(res.data.userInfo)
+                );
                 //更改vuex中的state[“userInfo]的值
-                this.SET_USERINFO(res.data.userInfo)
-                //跳转到主页
-                this.$router.push("/home");
+                this.SET_USERINFO(res.data.userInfo);
+                //跳转到
+                this.$router.push("/home/Welcome");
               } else {
                 //用户或者密码错误
                 this.$message.error("用户名或者密码错误");

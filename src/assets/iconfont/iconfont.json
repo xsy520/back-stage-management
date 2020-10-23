@@ -1,0 +1,72 @@
+{
+  "id": "",
+  "name": "",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "615322",
+      "name": "学员资料",
+      "font_class": "xueyuanziliao",
+      "unicode": "e618",
+      "unicode_decimal": 58904
+    },
+    {
+      "icon_id": "5299227",
+      "name": "学员",
+      "font_class": "xueyuan",
+      "unicode": "e66f",
+      "unicode_decimal": 58991
+    },
+    {
+      "icon_id": "6442338",
+      "name": "考勤",
+      "font_class": "kaoqin",
+      "unicode": "e6ac",
+      "unicode_decimal": 59052
+    },
+    {
+      "icon_id": "9202633",
+      "name": "数据",
+      "font_class": "shuju",
+      "unicode": "e641",
+      "unicode_decimal": 58945
+    },
+    {
+      "icon_id": "12625844",
+      "name": "项目",
+      "font_class": "xiangmu",
+      "unicode": "e662",
+      "unicode_decimal": 58978
+    },
+    {
+      "icon_id": "13309288",
+      "name": "我 的",
+      "font_class": "mine",
+      "unicode": "e508",
+      "unicode_decimal": 58632
+    },
+    {
+      "icon_id": "14007783",
+      "name": "首页-选中",
+      "font_class": "home",
+      "unicode": "e516",
+      "unicode_decimal": 58646
+    },
+    {
+      "icon_id": "14537948",
+      "name": "收 起",
+      "font_class": "shouqi",
+      "unicode": "e759",
+      "unicode_decimal": 59225
+    },
+    {
+      "icon_id": "15176877",
+      "name": "收 起",
+      "font_class": "fold-right",
+      "unicode": "e509",
+      "unicode_decimal": 58633
+    }
+  ]
+}

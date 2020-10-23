@@ -2,97 +2,87 @@
   <div class="home">
     <el-container>
       <!-- 侧边栏 -->
-      <el-aside width="200px">
-        <el-radio-group v-model="isCollapse" style="margin-bottom: 20px;">
-          <el-radio-button :label="false">展开</el-radio-button>
-          <el-radio-button :label="true">收起</el-radio-button>
-        </el-radio-group>
+      <el-aside width="200">
+        <h1 class="logo"></h1>
         <el-menu
-          default-active="1-4-1"
+          :default-active="$route.path"
           class="el-menu-vertical-demo"
-          @open="handleOpen"
-          @close="handleClose"
+          :router="true"
           :collapse="isCollapse"
         >
-          <el-submenu index="1">
-            <template slot="title">
-              <i class="el-icon-location"></i>
-              <span slot="title">导航一</span>
-            </template>
-            <el-menu-item-group>
-              <span slot="title">分组一</span>
-              <el-menu-item index="1-1">选项1</el-menu-item>
-              <el-menu-item index="1-2">选项2</el-menu-item>
-            </el-menu-item-group>
-            <el-menu-item-group title="分组2">
-              <el-menu-item index="1-3">选项3</el-menu-item>
-            </el-menu-item-group>
-            <el-submenu index="1-4">
-              <span slot="title">选项4</span>
-              <el-menu-item index="1-4-1">选项1</el-menu-item>
-            </el-submenu>
-          </el-submenu>
-          <el-menu-item index="2">
-            <i class="el-icon-menu"></i>
-            <span slot="title">导航二</span>
-          </el-menu-item>
-          <el-menu-item index="3" disabled>
-            <i class="el-icon-document"></i>
-            <span slot="title">导航三</span>
-          </el-menu-item>
-          <el-menu-item index="4">
-            <i class="el-icon-setting"></i>
-            <span slot="title">导航四</span>
-          </el-menu-item>
+          <qf-sub-menu :sideMenu="menuList"></qf-sub-menu>
         </el-menu>
       </el-aside>
       <!-- 顶部栏 -->
       <el-container>
         <el-header>
-          <el-row type="flex" class="row-bg" justify="space-between">
-            <el-col :span="6"
-              ><div class="grid-content bg-purple">
-                 图标</div
-            ></el-col>
-            <el-col :span="6"
-              ><div class="grid-content bg-purple-light">
-                 后台管理系统</div
-            ></el-col>
+          <el-row type="flex" class="row-bg" justify="space-around">
             <el-col :span="6">
               <div class="grid-content bg-purple">
+                <i
+                  :class="[
+                    'iconfont',
+                    isCollapse ? 'icon-fold-right' : 'icon-shouqi'
+                  ]"
+                  @click="isCollapse = !isCollapse"
+                ></i>
+              </div>
+            </el-col>
+            <el-col :span="6"
+              ><div class="grid-content bg-purple-light">
+                <b>后台管理系统</b>
+              </div></el-col
+            >
+            <el-col :span="6">
+              <div class="grid-content bg-purple right">
                 <div class="demo-basic--circle">
-                  <span class="img">
-                    <el-avatar :size="40"
-                           fit="fit"
-                           src="http://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTIzXDib7zrmdYxdEQpYk85B26DZAJS6PUJC7ic4Fydibdz9L2gU3hloPcibuyo0xAFztxqPbgdVWp1zpQ/132"></el-avatar>
-                  </span>
-                  
-                  <span>欢迎您:</span>
-                  <b class="nickname">{{userInfo.nickname}}</b>
-                  <span class="quit"
-                      @click="quit">退出</span>
+                  <el-avatar
+                    :size="40"
+                    fit="fit"
+                    src="https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1689053532,4230915864&fm=26&gp=0.jpg"
+                  ></el-avatar>
+
+                  <span style="color:#e9eef3 ;fontWeight:600"
+                    >欢迎您&nbsp;：</span
+                  >
+                  <b class="nickname">{{ userInfo.nickname }}</b>
+                  <span class="quit" @click="quit">退出</span>
                 </div>
-                </div>
-              </el-col>
+              </div>
+            </el-col>
           </el-row>
         </el-header>
-        <!-- 主题 -->
-        <el-main> </el-main>
+        <!-- 主体部分-->
+        <el-main>
+          <el-breadcrumb separator-class="el-icon-arrow-right">
+            <el-breadcrumb-item :to="{ path: '/home/Welcome' }"
+              >首页</el-breadcrumb-item
+            >
+            <el-breadcrumb-item
+              :to="{ path: crumb.path }"
+              v-for="crumb in crumbs"
+              :key="crumb.id"
+            >
+              {{ crumb.meta.name }}
+            </el-breadcrumb-item>
+          </el-breadcrumb>
+          <router-view></router-view>
+        </el-main>
       </el-container>
     </el-container>
   </div>
 </template>
 <script>
 import { getLoginLog } from "@/api";
-import {mapState} from "vuex"
+import { mapState } from "vuex";
 export default {
-  computed: {
-    ...mapState(["userInfo"])
-  },
   data() {
     return {
-      isCollapse: true,
+      isCollapse: false
     };
+  },
+  computed: {
+    ...mapState(["userInfo", "menuList", "crumbs"])
   },
   methods: {
     handleOpen(key, keyPath) {
@@ -101,31 +91,58 @@ export default {
     handleClose(key, keyPath) {
       console.log(key, keyPath);
     },
-      quit() {
-        //退出登入
-        //1.清除token和userInfo
-        //2.跳转到登入页
+    quit() {
+      //退出登入
+      //1.清除token和userInfo
+      //2.跳转到登入页
 
-        localStorage.removeItem("2005-token")
-        localStorage.removeItem("wf-userInfo")
-
-        this.$router.push("/")
-      }
-  },
-  mounted() {
-    getLoginLog().then(res => {
-      console.log(res);
-    });
+      localStorage.removeItem("2005-token");
+      localStorage.removeItem("wf-userInfo");
+      this.$router.push("/");
+      //刷新页面
+      window.location.reload();
+    }
   }
 };
 </script>
 <style scoped>
+.el-aside .logo {
+  height: 60px;
+  background: #5635df;
+  background-image: url("../../imgs/logo.png");
+  background-size: 80%;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.iconfont {
+  color: blue;
+}
+/* .bg-purple-light {
+  margin-left: 200px;
+} */
+.nickname {
+  margin: 0 5px;
+  color: #e9eef3;
+}
+.bg-purple-light {
+  color: #e9eef3;
+}
+.icon-fold-right,
+.icon-shouqi {
+  font-size: 20px;
+  color: #e9eef3;
+  cursor: pointer;
+  position: absolute;
+  left: 5px;
+}
 .quit {
-    cursor: pointer;
-    color: hotpink;
-  }
-.img{
-  vertical-align:-webkit-baseline-middle;
+  cursor: pointer;
+  color: #e9eef3;
+  font-weight: 600;
+}
+.el-avatar {
+  vertical-align: middle;
+  margin-right: 10px;
 }
 .el-menu-vertical-demo:not(.el-menu--collapse) {
   width: 200px;
@@ -137,14 +154,6 @@ export default {
   text-align: center;
   line-height: 60px;
 }
-
-.el-aside {
-  background-color: #d3dce6;
-  color: #333;
-  text-align: center;
-  line-height: 200px;
-}
-
 .el-main {
   background-color: #e9eef3;
   color: #333;
@@ -155,7 +164,6 @@ export default {
 body > .el-container {
   margin-bottom: 40px;
 }
-
 .el-container:nth-child(5) .el-aside,
 .el-container:nth-child(6) .el-aside {
   line-height: 260px;
@@ -164,19 +172,24 @@ body > .el-container {
 .el-container:nth-child(7) .el-aside {
   line-height: 320px;
 }
+.right {
+  position: absolute;
+  right: 20px;
+}
 
-.el-row {
-  margin-bottom: 20px;
-}
-.el-col {
-  border-radius: 4px;
-}
-.grid-content {
-  border-radius: 4px;
-}
-.row-bg {
-  padding: 10px 0;
-}
+ .el-row {
+    margin-bottom: 20px;
+  }
+  .el-col {
+    border-radius: 4px;
+  }
+  .bg-purple-dark {
+    background: #99a9bf;
+  }
+  .grid-content {
+    border-radius: 4px;
+    /* min-height: 36px; */
+  }
 </style>
 
 
