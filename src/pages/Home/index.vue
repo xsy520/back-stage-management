@@ -55,7 +55,7 @@
         <!-- 主体部分-->
         <el-main>
           <el-breadcrumb separator-class="el-icon-arrow-right">
-            <el-breadcrumb-item :to="{ path: '/home/Welcome' }"
+            <el-breadcrumb-item :to="{ path: '/Welcome' }"
               >首页</el-breadcrumb-item
             >
             <el-breadcrumb-item
@@ -98,7 +98,7 @@ export default {
 
       localStorage.removeItem("2005-token");
       localStorage.removeItem("wf-userInfo");
-      this.$router.push("/");
+      this.$router.push("/login");
       //刷新页面
       window.location.reload();
     }

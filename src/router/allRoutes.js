@@ -15,7 +15,7 @@ const allRoutes = [
        component:Welcome,
        meta:{//储存一些临时的信息  数据缓存区
            name:'管理首页',//菜单名
-           icon:'iconfont icon-home',//菜单图标
+           icon: 'iconfont icon-shouye',//菜单图标
            fullPath:"/Welcome" //用于跳转
        }
     },
@@ -35,7 +35,7 @@ const allRoutes = [
                 component:studentProduct,
                 meta:{
                     name:'学员项目管理',
-                    icon:'iconfont icon-xiangmu'
+                    icon:'iconfont icon-wode1'
                 },
             },
             {
@@ -44,7 +44,7 @@ const allRoutes = [
                 component:studentProfile,
                 meta:{
                     name:'学员资料',
-                    icon:'iconfont icon-xueyuanziliao'
+                    icon:'iconfont icon-kaoqin2'
                 }, 
             },
             {
@@ -53,7 +53,7 @@ const allRoutes = [
                 component:studentDormitory,
                 meta:{
                     name:'学员宿舍',
-                    icon:'iconfont icon-home'
+                    icon:'iconfont icon-shuju2'
                 }, 
             }
         ]
@@ -73,7 +73,7 @@ const allRoutes = [
          component:Users,
          meta:{
              name:'用户管理',
-             icon:'iconfont icon-mine'
+             icon:'iconfont icon-yonghu'
          }
      },
      {
@@ -82,7 +82,7 @@ const allRoutes = [
         component:Statistics,
         meta:{
             name:'数据统计',
-            icon:'iconfont icon-shuju'
+            icon:'iconfont icon-shuju1'
         }
      },
      {
@@ -91,7 +91,7 @@ const allRoutes = [
         component:Mine,
         meta:{
             name:'我的中心',
-            icon:'iconfont icon-mine'
+            icon:'iconfont icon-wode'
         }
      }
 ]

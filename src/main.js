@@ -5,7 +5,7 @@ import store from "./store";
 import "./assets/styles/el-reset.css"
 import "./assets/styles/base.css"
 //引入iconfont
-import "./assets/iconfont/iconfont.css"
+import "./assets/iconFonts/iconfont.css"
 //导入element-ui
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
@@ -17,6 +17,11 @@ Vue.use(qfSubMenu)
 //NProgress进度条
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
+
+//eventBus
+import bus from "./utils/bus"
+
+Vue.prototype.$bus = bus
 
 //路由前置钩子（导航守卫）
 // next方向  to 从哪来  from到哪去
@@ -44,11 +49,11 @@ router.beforeEach((to, from, next) => {
     }
   }
   else { //没有token
-    if (to.path === "/") {
+    if (to.path === "/login") {
       next()
     } else {
       //访问的不是登录也 就要跳转到登录页
-      next({ path: "/" })
+      next({ path: "/login" })
     }
   }
 

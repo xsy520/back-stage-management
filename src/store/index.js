@@ -13,13 +13,26 @@ import router from "../router"
 Vue.use(Vuex);
 //刷新页面会丢失页面信息，所以要从localStorage中取
 let userInfo = localStorage.getItem("wf-userInfo") || "{}"
+let permissionButtons = JSON.parse(localStorage.getItem('wf-permission-buttons')) || "{}";
 
 userInfo = JSON.parse(userInfo)
 export default new Vuex.Store({
   state: {
     userInfo,
     menuList: [], //定义用户侧边栏
-    crumbs:[]
+    crumbs:[],
+    dialogVisible:false,//控制dialog弹出窗显示或者隐藏
+    //dialog 数据源
+    stuForm: {
+      name: '',
+      productUrl: '',
+      headimgurl: '',
+      class: '',
+      age: '',
+      city: '',
+      degree: '',
+      description: ''
+    }
   },
   mutations: {
     //更改userInfo
@@ -31,7 +44,7 @@ export default new Vuex.Store({
       // console.log(state.menuList);
       //动态的将路由添加到routes中，核心方法 router.addRoutes（复合路由配置规则的数据）
       //1、将menuList赋值给dynamicRoutes的children
-      let target = dynamicRoutes.find(item => item.path === "/home")
+      let target = dynamicRoutes.find(item => item.path === "/")
       // console.log(target);
       target.children = [...state.menuList]
       // console.log(dynamicRoutes);
@@ -41,7 +54,10 @@ export default new Vuex.Store({
     //设置面包屑
      SET_CRUMBS(state,payload){
        state.crumbs = payload;
-     }
+     },
+    CLEAR_SIDEMENU(state) {
+      state.menuList = []
+    },
   },
   actions: {
     //1、发送请求，获取用户菜单数据

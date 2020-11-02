@@ -11,7 +11,7 @@ VueRouter.prototype.push = function push(location) {
 
 const routes = [
   {
-    path: "/",
+    path: "/login",
     name: "login",
     component: Login
   },

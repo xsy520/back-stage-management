@@ -31,7 +31,7 @@ axios.interceptors.response.use(config =>{
         ElementUI.Message.error("重新登入")
         localStorage.removeItem("wf-token")
         localStorage.removeItem("2005-token")
-        router.push("/")
+        router.push("/login")
         window.location.reload()
     }
     return config

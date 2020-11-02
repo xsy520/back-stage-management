@@ -28,6 +28,18 @@
               autocomplete="off"
             ></el-input>
           </el-form-item>
+          <!-- 验证码 -->
+          <el-form-item label="验证码" prop="captcha">
+            <el-input
+              type="text"
+              v-model="loginFrom.captcha"
+               @keydown.native.enter="submitForm('loginFrom')"
+              autocomplete="off"
+              class="captcha"
+            ></el-input>
+            <span class="captcha-svg" v-html="captchaSvg" @click="refreshCaptcha">
+            </span>
+          </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="submitForm('loginFrom')" 
               >提交</el-button
@@ -57,7 +69,7 @@
   4、展示token校验正确的数据
   5、校验不通过，跳转至登入页
  */
-import { login } from "@/api";
+import { login,getCaptcha,verifyCaptcha } from "@/api";
 import { mapMutations } from "vuex";
 import { mapState } from "vuex";
 export default {
@@ -89,27 +101,61 @@ export default {
         callback();
       }
     };
+    //校验验证码
+    var validateCaptcha= (rule, value, callback) => {
+      if (value.length !== 5) {
+        callback( new Error("请输入验证码"));
+      } else {
+        callback();
+      }
+    };
     return {
+      captchaSvg:'',//从服务器获取下来的验证码svg结构
       loginFrom: {
         username: "",
-        password: ""
+        password: "",
+        captcha:''
       },
       rules: {
         //validator 传入校验的函数  trigger触发的条件
         username: [{ validator: validateUsername, trigger: "blur" }],
-        password: [{ validator: validatePassword, trigger: "blur" }]
+        password: [{ validator: validatePassword, trigger: "blur" }],
+        captcha: [{ validator: validateCaptcha, trigger: "blur" }]
       }
     };
   },
+  
+    mounted () {
+      this.set_captcha()
+    },
   methods: {
+    //刷新验证码
+    refreshCaptcha(){
+      this.set_captcha()
+    },
+    //设置验证码
+    set_captcha(){
+      getCaptcha().then((res)=>{
+          this.captchaSvg = res.data.img
+      })
+    },
     ...mapMutations(["SET_USERINFO"]),
     //先本地校验通过之后再去服务器校验
     
     submitForm(formName) {
       // console.log(this.$refs[formName]);
-      this.$refs[formName].validate(valid => {
-        if (valid) {
-          //代表本地校验通过
+     this.$refs[formName].validate(async (valid) => {
+        if (valid) {//代表本地校验通过
+        //先验证验证码是否正确如果正确在发送登入请求
+        // console.log(this);
+        let verifyRes = await verifyCaptcha(this.loginFrom.captcha)
+       if (!verifyRes.data.state) {
+              //验证码不正确
+              this.$message.error('验证码输入错误,请重新输入')
+              this.set_captcha()
+              return
+            }
+          
           //打开加载动画
           const loading = this.$loading({
             lock: true,
@@ -138,7 +184,7 @@ export default {
                 //更改vuex中的state[“userInfo]的值
                 this.SET_USERINFO(res.data.userInfo);
                 //跳转到
-                this.$router.push("/home/Welcome");
+                this.$router.push("/Welcome");
               } else {
                 //用户或者密码错误
                 this.$message.error("用户名或者密码错误");
@@ -160,6 +206,17 @@ export default {
 };
 </script>
 <style scoped>
+
+.captcha-svg{
+    background: #fff;
+    display: inline-block;
+    height: 40px;
+    width: 140px;
+    margin-left: 10px;
+    border-radius:5px;
+    padding-bottom: 3px;
+    cursor: pointer;
+}
 /*表单样式 */
 .el-form {
   width: 400px;
@@ -198,11 +255,12 @@ export default {
   right: 150px;
   top: 100px;
   z-index: 100;
-  text-align: center;
+  /* text-align: center; */
 }
 .parent h1 {
   color: #fff;
   margin-top: 100px;
+  margin-left: 30%;
 }
 .demo-loginFrom .el-button {
   width: 250px;
@@ -211,7 +269,7 @@ export default {
 .parent .demo-loginFrom {
   position: absolute;
   padding-top: 50px;
-  right: 30px;
+  /* right: 30px; */
 }
 .left {
   width: 50%;

@@ -2,7 +2,7 @@ import Home from "../pages/Home"
 const dynamicRoutes = [
 
     {
-        path: "/home",
+        path: "/",
         component: Home,
         children: [],
     },

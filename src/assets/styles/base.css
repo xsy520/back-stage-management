@@ -52,3 +52,13 @@ html, body ,#app,.home ,.el-container{
 border-top-color: #f56c6c!important;
 border-left-color: #003df1!important;
 }
+
+/* 验证码 */
+
+.captcha .el-input__inner{
+    width: 100% !important;
+    float: left !important;
+}
+.captcha{
+    width: 35% !important;
+}
