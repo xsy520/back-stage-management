@@ -23,6 +23,27 @@ import bus from "./utils/bus"
 
 Vue.prototype.$bus = bus
 
+//引入鉴权方法
+import has from "./utils/has"
+Vue.prototype.$has = has
+//定义全局自定义指令 判断是否具有相对权限
+Vue.directive("hasPermission",{
+  
+  bind(el,binding,VNode){
+    let buttons = localStorage.getItem("wf-permission-buttons");
+      if( !has(buttons,binding.value)){
+        //禁用按钮
+        console.log(el.className);//el-button btn el-button--primary
+       //先存储class类名  在这个基础上加上is-disabled禁用按钮
+       let className = el.className
+       el.className = className+" "+"is-disabled"
+       el.disabled = true
+        // console.log(el);
+      }
+     
+  }
+})
+
 //路由前置钩子（导航守卫）
 // next方向  to 从哪来  from到哪去
 router.beforeEach((to, from, next) => {

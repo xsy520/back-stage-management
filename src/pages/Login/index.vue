@@ -181,6 +181,7 @@ export default {
                   "wf-userInfo",
                   JSON.stringify(res.data.userInfo)
                 );
+                localStorage.setItem('wf-permission-buttons', JSON.stringify(res.data.permission.buttons))
                 //更改vuex中的state[“userInfo]的值
                 this.SET_USERINFO(res.data.userInfo);
                 //跳转到

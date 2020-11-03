@@ -70,3 +70,6 @@ export const searchStu = (params) => {
 
 // 获取班级 /students/getclasses
 export const getClasses = () => axios.get('/students/getclasses')
+
+//获取学员日志
+export const getloginlog = () => axios.get('/getloginlog')

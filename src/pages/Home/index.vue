@@ -45,7 +45,7 @@
                   <span style="color:#e9eef3 ;fontWeight:600"
                     >欢迎您&nbsp;：</span
                   >
-                  <b class="nickname">{{ userInfo.nickname }}</b>
+                  <b class="nickname" @click="$router.push('/Mine')">{{ userInfo.nickname }}</b>
                   <span class="quit" @click="quit">退出</span>
                 </div>
               </div>
@@ -123,6 +123,7 @@ export default {
 .nickname {
   margin: 0 5px;
   color: #e9eef3;
+  cursor: pointer;
 }
 .bg-purple-light {
   color: #e9eef3;

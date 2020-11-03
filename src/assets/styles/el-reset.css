@@ -6,3 +6,20 @@
 .login-page .el-input__inner {
   width: 83%;
 }
+
+/* 导出excel按钮图标样式 */
+
+.exportExcel i.icon-excel {
+  color: green;
+  font-size: 20px;
+  margin-right: 3px;
+}
+
+.exportExcel .el-button {
+  padding: 4px 7px;
+  float:right;
+}
+.exportExcel {
+  margin-bottom: 10px;
+  overflow: hidden;
+}

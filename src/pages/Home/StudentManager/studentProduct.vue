@@ -36,7 +36,7 @@
       <el-button
         type="primary"
         @click="addStu"
-        v-haspermission="'add'"
+        v-hasPermission="'add'"
         :disabled="disabled"
         >添加项目</el-button
       >
@@ -64,6 +64,11 @@
           </el-select>
         </el-form-item>
       </el-form>
+    </div>
+    <!-- 导出excel -->
+    <div class="exportExcel">
+      <el-button icon="iconfont icon-excel"
+                 @click="exportExcel">导出excel数据</el-button>
     </div>
     <!-- 表格 -->
     <div class="stu-table">
@@ -95,7 +100,7 @@
               type="primary"
               class="btn"
               icon="el-icon-view"
-              v-haspermission="'read'"
+              v-hasPermission="'read'"
               @click="$router.push({ path: '/StudentManager/studentProfile' })"
               >查看</el-button
             >
@@ -103,7 +108,7 @@
               type="primary"
               class="btn"
               icon="el-icon-edit"
-              v-haspermission="'edit'"
+              v-hasPermission="'edit'"
               @click="editStu(row)"
               >编辑</el-button
             >
@@ -111,7 +116,7 @@
               type="danger"
               class="btn"
               icon="el-icon-delete"
-              v-haspermission="'delete'"
+              v-hasPermission="'delete'"
               @click="deleteStu(row)"
               >删除</el-button
             >
@@ -138,6 +143,7 @@
 <script>
 import dialog from "../../../components/dialog";
 import { getStuList, delStu, searchStu, getClasses } from "@/api";
+import qee from 'qf-export-excel'
 export default {
   components: {
     "qf-dialog": dialog
@@ -172,6 +178,29 @@ export default {
     });
   },
   methods: {
+    // 导出excel
+    exportExcel () {
+      const titleList = [
+        {
+          title: '头像',
+          key: 'headimgurl'
+        },
+        {
+          title: '姓名',
+          key: 'name'
+        },
+        {
+          title: '班级',
+          key: 'class'
+        },
+        {
+          title: '项目',
+          key: 'productUrl'
+        }
+      ]
+      const dataSource = this.stuData
+      qee(titleList, dataSource, '学员数据')
+    },
     //班级选择框展开 收起 触发的事件
     classVisible(isVisible){
       if(!isVisible) return
@@ -351,3 +380,4 @@ export default {
   }
 };
 </script>
+

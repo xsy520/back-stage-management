@@ -22,10 +22,11 @@ axios.interceptors.request.use(config => {
 })
 //响应拦截
 axios.interceptors.response.use(config =>{
-   
-    // console.log(config);
+
     let {data} = config
+    // console.log("----------------"+config.code);
     if(data.code == "1004" || data.code == "10022"){
+        console.log(data.code);
         //1004的code 这个code是后端定义的状态码
         //在当前的后台api中 1004代表token校验失败，表示错误，并且让页面跳转到登录页
         ElementUI.Message.error("重新登入")
