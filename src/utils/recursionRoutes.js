@@ -22,22 +22,3 @@ const recursionRoutes = (allRoutes, menuList) => {
     return userRoutes
 }
 export default recursionRoutes
-
-//调试
-// let list = [
-//     {
-//         "name": "管理首页"
-//     },
-//     {
-//         "name": "学员管理",
-//         "children": [
-//             {
-//                 "name": "学员项目管理"
-//             }
-//         ]
-//     },
-//     {
-//         "name": "我的中心"
-//     }
-// ]
-// console.log(recursionRoutes(allRoutes,list));

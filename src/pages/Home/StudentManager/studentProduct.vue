@@ -77,22 +77,22 @@
           prop="headimgurl"
           align="center"
           label="头像"
-          width="80"
+          width="160"
         >
           <template slot-scope="scope">
             <el-avatar
               shape="square"
-              :size="50"
+              :size="60"
               fit="fill"
               :src="scope.row.headimgurl"
             ></el-avatar>
           </template>
         </el-table-column>
-        <el-table-column prop="name" align="center" label="姓名" width="180">
+        <el-table-column prop="name" align="center" label="姓名" width="200">
         </el-table-column>
-        <el-table-column prop="class" align="center" label="班级">
+        <el-table-column prop="class" align="center" label="班级" width="200">
         </el-table-column>
-        <el-table-column prop="productUrl" align="center" label="项目">
+        <el-table-column prop="productUrl" align="center" label="项目" width="220">
         </el-table-column>
         <el-table-column align="center" label="操作">
           <template slot-scope="{ row }">
@@ -101,7 +101,7 @@
               class="btn"
               icon="el-icon-view"
               v-hasPermission="'read'"
-              @click="$router.push({ path: '/StudentManager/studentProfile' })"
+              @click="toStudent(row)"
               >查看</el-button
             >
             <el-button
@@ -178,6 +178,12 @@ export default {
     });
   },
   methods: {
+
+    // this.$router.push({name:'路由命名',params:{参数名:参数值,参数名:参数值}})
+    toStudent(row){
+      // console.log(row);
+      this.$router.push({ name: 'studentProfile',params:{id:row._id} })
+    },
     // 导出excel
     exportExcel () {
       const titleList = [

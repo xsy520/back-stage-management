@@ -22,7 +22,7 @@
                 <i
                   :class="[
                     'iconfont',
-                    isCollapse ? 'icon-fold-right' : 'icon-shouqi'
+                    isCollapse ? 'icon-zhankai' : 'icon-shouqi'
                   ]"
                   @click="isCollapse = !isCollapse"
                 ></i>
@@ -128,7 +128,7 @@ export default {
 .bg-purple-light {
   color: #e9eef3;
 }
-.icon-fold-right,
+.icon-zhankai,
 .icon-shouqi {
   font-size: 20px;
   color: #e9eef3;

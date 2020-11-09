@@ -18,6 +18,10 @@ Vue.use(qfSubMenu)
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 
+//使用echarts
+import echarts from 'echarts'
+Vue.prototype.$echarts = echarts
+
 //eventBus
 import bus from "./utils/bus"
 

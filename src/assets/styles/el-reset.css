@@ -23,3 +23,18 @@
   margin-bottom: 10px;
   overflow: hidden;
 }
+
+/* 表格 */
+.el-table__header{
+  line-height: 50px;
+}
+
+
+.tb{
+  width:80%;
+  border-collapse:collapse;
+  margin: 0 auto;
+}
+.tb tr td{
+  line-height: 70px;
+ }

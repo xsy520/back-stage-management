@@ -73,3 +73,6 @@ export const getClasses = () => axios.get('/students/getclasses')
 
 //获取学员日志
 export const getloginlog = () => axios.get('/getloginlog')
+
+// 微信登入 /users/wechatLogin
+export const wechatLogin = (wechatCode) => axios.get(`/users/wechatLogin?wechatCode=${wechatCode}`)
